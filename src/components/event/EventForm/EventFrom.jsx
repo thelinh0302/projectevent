@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react'
+const emtyEvent = {
+    title: '',
+    date: '',
+    city: '',
+    venue: '',
+    hostedBy: ''
+}
 class EventForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            events: {
-                title: '',
-                date: '',
-                city: '',
-                venue: '',
-                hosted: ''
-            }
+            events: emtyEvent
         }
     }
-
+    componentDidMount() {
+        if (this.props.selectedEvent !== null) {
+            this.setState({
+                events: this.props.selectedEvent
+            })
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selectedEvent !== this.props.selectedEvent) {
+            this.setState({
+                events: nextProps.selectedEvent || emtyEvent
+            })
+        }
+    }
     onFormSubmit = (e) => {
         e.preventDefault()
-        this.props.createEvent(this.state.events)
+        if (this.state.events.id) {
+            this.props.eventUpdate(this.state.events)
+        } else {
+            this.props.createEvent(this.state.events)
+
+        }
     }
     onInputChange = (e) => {
         const newEvent = this.state.events
@@ -49,7 +68,7 @@ class EventForm extends Component {
                     </Form.Field>
                     <Form.Field>
                         <label>Hosted By</label>
-                        <input name="hosted" onChange={this.onInputChange} value={events.hosted} placeholder="Enter the name of person hosting" />
+                        <input name="hostedBy" onChange={this.onInputChange} value={events.hostedBy} placeholder="Enter the name of person hosting" />
                     </Form.Field>
                     <Button positive type="submit">
                         Submit
