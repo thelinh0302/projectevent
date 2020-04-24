@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Segment, Item, Label } from 'semantic-ui-react'
-const EventDetailSidebar = () => {
+const EventDetailSidebar = ({ attendees }) => {
+    const isHost = true
     return (
         <Fragment>
             <Segment
@@ -11,23 +12,26 @@ const EventDetailSidebar = () => {
                 inverted
                 color='teal'
             >
-                2 People Going
-              </Segment>
+                {attendees && attendees.length} {attendees && attendees.length === 1 ? 'Person' : 'People'}
+            </Segment>
             <Segment attached>
                 <Item.Group divided>
-                    <Item style={{ position: 'relative' }}>
-                        <Label
-                            style={{ position: 'absolute' }}
-                            color='orange'
-                            ribbon='right'
-                        >
-                            Host
-                    </Label>
-                        <Item.Image size='tiny' src='/assets/user.png' />
-                        <Item.Content verticalAlign='middle'>
-                            <Item.Header as='h3'>Attendee Name</Item.Header>
-                        </Item.Content>
-                    </Item>
+                    {attendees && attendees.map(attende => (
+                        <Item key={attende.id} style={{ position: 'relative' }}>
+                            {isHost &&
+                                <Label
+                                    style={{ position: 'absolute' }}
+                                    color='orange'
+                                    ribbon='right'
+                                >
+                                    Host
+                    </Label>}
+                            <Item.Image size='tiny' src={attende.photoURL} />
+                            <Item.Content verticalAlign='middle'>
+                                <Item.Header as='h3'> {attende.name} </Item.Header>
+                            </Item.Content>
+                        </Item>
+                    ))}
                 </Item.Group>
             </Segment>
         </Fragment>

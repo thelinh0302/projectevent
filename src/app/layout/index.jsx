@@ -22,9 +22,10 @@ class App extends Component {
             <Navbar />
             <Container className="main" >
               <Switch>
-                <Route path='/events' component={EventDashboard} />                <Route path='/events' component={EventDashboard} />
+                <Route path='/events' component={EventDashboard} />
                 <Route path='/test' component={TestComponent} />
                 <Route path='/event/:id' component={EventDetailPage} />
+                <Route path='/manage/:id' component={EventForm} />
                 <Route path='/people' component={PeopleDashboard} />
                 <Route path='/profile/:id' component={UserDetailPage} />
                 <Route path='/setting' component={SettingDashboard} />
